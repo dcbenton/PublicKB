@@ -244,62 +244,37 @@ $endDate = "2018-05-06"
 Example Output from either the command or the script:
 ```
 {
-
 \"Limit\": 100,
-
 \"NextOffset\": 0,
-
 \"Offset\": 0,
-
 \"Results\": \[
-
 {
-
 \"BackupFinishedDate\": \"2018-04-26T23:55:41.373Z\",
-
 \"BackupStartedDate\": \"2018-04-26T23:55:36.753Z\",
-
 \"BytesFailedToTransfer\": 0,
-
 \"BytesInStorageForItemsRemoved\": 17706,
-
 \"BytesTransferredToStorage\": 21849,
-
 \"FilesFailedTransferToStorage\": 0,
-
 \"FilesRemovedFromDisk\": 2,
-
 \"FilesTransferredToStorage\": 3,
-
 \"NumberOfProtectedFiles\": 8700,
-
 \"PolicyId\": \"***e629e5af-xxxx-xxxx-xxxx-yyyyyyyyyyy***\",
-
 \"RestorePointCreationStatus\": \"SUCCESS\",
-
 \"RestorePointId\":
 \"***e629e5af-xxxx-xxxx-xxxx-yyyyyyyyyyy*20180426235535**\",
-
 \"RetentionDays\": 30,
-
 \"RetentionExpiredDate\": \"2018-05-27T23:55:36.753Z\",
-
 \"UnchangedBytesInStorage\": 1.81117417e+08,
-
 \"UnchangedFilesNotTransferred\": 8697
-
 },
 
 {
-
 \"BackupFinishedDate\": \"2018-04-28T00:05:41.416Z\",
-
 \"BackupStartedDate\": \"2018-04-28T00:05:36.695Z\",
 
 ***\<\<\<SNIP\>\>\>***
 
 \"UnchangedFilesNotTransferred\": 8701
-
 }
 
 \],
@@ -325,8 +300,7 @@ on the Windows server you want to restore the data to:
 
 **Set-PSDebug -Trace 2**
 
-**\$restorePointId =
-\"e629e5af-xxxx-xxxx-xxxx-yyyyyyyyyyy20180426235535\"**
+**\$restorePointId = \"e629e5af-xxxx-xxxx-xxxx-yyyyyyyyyyy20180426235535\"**
 
 **\$policyId = \"e629e5af-xxxx-xxxx-xxxx-yyyyyyyyyyy\"**
 
@@ -338,23 +312,17 @@ on the Windows server you want to restore the data to:
 
 **\$URL = \"http://127.0.0.1:15915/sbs/restore\"**
 
-**\$BODY = @{ restorePointId = \"\$restorePointId\"; policyId =
-\"\$policyId\"; path = \"\$path\" } **
+**\$BODY = \@{ restorePointId = \"\$restorePointId\"; policyId = \"\$policyId\"; path = \"\$path\" } **
 
-**\$base64AuthInfo =
-\[Convert\]::ToBase64String(\[Text.Encoding\]::ASCII.GetBytes((\"{0}:{1}\"
--f \$user,\$passwd)))**
+**\$base64AuthInfo = \[Convert\]::ToBase64String(\[Text.Encoding\]::ASCII.GetBytes((\"{0}:{1}\" -f \$user,\$passwd)))**
 
-**Invoke-RestMethod -Headers @{Authorization=(\"Basic {0}\" -f
-\$base64AuthInfo)} \$URL -Method POST -ContentType \"application/json\"
--Body (ConvertTo-Json \$BODY) **
+**Invoke-RestMethod -Headers \@{Authorization=(\"Basic {0}\" -f \$base64AuthInfo)} \$URL -Method POST -ContentType \"application/json\" -Body (ConvertTo-Json \$BODY) **
 
 The same PowerShell script but with a pair of selective restore paths:
 
 **Set-PSDebug -Trace 2**
 
-**\$restorePointId =
-\"e629e5af-xxxx-xxxx-xxxx-yyyyyyyyyyy20180426235535\"**
+**\$restorePointId = \"e629e5af-xxxx-xxxx-xxxx-yyyyyyyyyyy20180426235535\"**
 
 **\$policyId = \"e629e5af-xxxx-xxxx-xxxx-yyyyyyyyyyy\"**
 
@@ -366,17 +334,11 @@ The same PowerShell script but with a pair of selective restore paths:
 
 **\$URL = \"http://127.0.0.1:15915/sbs/restore\"**
 
-**\$BODY = @{ restorePointId = \"\$restorePointId\"; policyId =
-\"\$policyId\"; path = \"\$path\"; selectiveRestorePaths =
-@(\"C:\\Program Files\\7-Zip\", \"C:\\Users\") } **
+**\$BODY = \@{ restorePointId = \"\$restorePointId\"; policyId = \"\$policyId\"; path = \"\$path\"; selectiveRestorePaths = \@(\"C:\\Program Files\\7-Zip\", \"C:\\Users\") } **
 
-**\$base64AuthInfo =
-\[Convert\]::ToBase64String(\[Text.Encoding\]::ASCII.GetBytes((\"{0}:{1}\"
--f \$user,\$passwd)))**
+**\$base64AuthInfo = \[Convert\]::ToBase64String(\[Text.Encoding\]::ASCII.GetBytes((\"{0}:{1}\" -f \$user,\$passwd)))**
 
-**Invoke-RestMethod -Headers @{Authorization=(\"Basic {0}\" -f
-\$base64AuthInfo)} \$URL -Method POST -ContentType \"application/json\"
--Body (ConvertTo-Json \$BODY) **
+**Invoke-RestMethod -Headers @{Authorization=(\"Basic {0}\" -f \$base64AuthInfo)} \$URL -Method POST -ContentType \"application/json\" -Body (ConvertTo-Json \$BODY) **
 
 **\
 **
